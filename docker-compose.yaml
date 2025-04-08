@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  product-service:
+    build: ./product-service
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=mysql://user:password@localhost:3306/productdb
+    depends_on:
+      - mysql
+
+  order-service:
+    build: ./order-service
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=mysql://user:password@localhost:3306/orderdb
+    depends_on:
+      - mysql
+
+  customer-service:
+    build: ./customer-service
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=mysql://user:password@localhost:3306/customerdb
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: productdb
+      MYSQL_DATABASE: orderdb
+      MYSQL_DATABASE: customerdb
+    ports:
+      - "3306:3306"
+
+
